@@ -4,7 +4,7 @@
 2. Rename all files so that they are in the right order, initially they they use DD.MM.YYYY which is unfortunate. I used the `rename` utility (via `brew install rename`):
  `$ rename 's/-Chronik_der_Wende_vom_([\d]{2})\.([\d]{2})\.([\d]{4})/_$3-$2-$1/g' * `
 3. All episodes have to be converted to MPEG2 in order to be burnt on DVD. As I don't have enough space left on my hard disk, I will do one DVD at a time. One MP4 file of 232 MB will become an MPEG2 file of around 421 MB. So all data files will be moved into corresponding directories.
- ![DVD directories](./images/_directories_.png "Directory screenshot")
+ ![DVD directories](./images/_directories.png "Directory screenshot")
 4. Compared to the input the basic `ffmpeg` conversion just using `-target pal-dvd` seems to produce very similar quality, at least I couldn't detect any difference.
 
 `ffmpeg -i input.mp4 -target pal-dvd -aspect 16:9 output.mpg`
