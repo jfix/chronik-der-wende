@@ -1,3 +1,14 @@
+node_modules
+test
+bkp
+
 **/*.mp4
 **/*.txt
 **/*.mpeg
+**/*.BUP
+**/*.IFO
+**/*.VOB
+
+dvds/**/*.png
+dvds/**/generate.sh
+dvds/**/dvd.xml
