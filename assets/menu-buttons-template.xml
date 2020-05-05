@@ -1,0 +1,12 @@
+<subpictures>
+    <stream>
+        <spu start="00:00:00.00" 
+            image="assets/background-normal.png" 
+            highlight="assets/background-active.png" 
+            select="assets/background-selected.png" 
+            autooutline="infer"
+            outlinewidth="2"
+            force="yes" autoorder="columns" xoffset="0" yoffset="0">
+        </spu>
+    </stream>
+</subpictures>

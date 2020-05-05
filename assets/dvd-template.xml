@@ -1,0 +1,21 @@
+<dvdauthor dest="out">
+    <vmgm>
+        <menus>
+            <video format="pal" aspect="16:9"/>
+            <pgc>
+                <button>jump title 1;</button>
+                <button>jump title 2;</button>
+                <button>jump title 3;</button>
+                <button>jump title 4;</button>
+                <button>jump title 5;</button>
+                <button>jump title 6;</button>
+                <button>jump title 7;</button>
+                <button>jump title 8;</button>
+                <button>jump title 9;</button>
+                <button>jump title 10;</button>
+                <vob file="assets/menu-final.mpeg" pause="inf" />
+            </pgc>
+        </menus>
+    </vmgm>
+    TITLESETS
+</dvdauthor>
