@@ -1,0 +1,27 @@
+{
+  "name": "chronik-der-wende",
+  "version": "1.0.0",
+  "description": "How I create(d) the 16 DVDs of the TV series \"Chronik der Wende\"",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jfix/chronik-der-wende.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jfix/chronik-der-wende/issues"
+  },
+  "homepage": "https://github.com/jfix/chronik-der-wende#readme",
+  "dependencies": {
+    "glob": "7.1.6",
+    "moment": "2.24.0",
+    "rimraf": "3.0.2"
+  }
+}
