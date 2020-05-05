@@ -1,5 +1,14 @@
 # How to 
 
+## Software required
+
+- rename
+- ffmpeg (and ffprobe)
+- imagemagick
+- dvdauthor (and spumux)
+
+## Get files and preparation
+
 1. Get all video files from the Mediathek using MediathekView. There are 160 MP4 files, with an average size of 240 MB. There are also informative text files for each episode, containing useful metadata that will be used (hopefully) to add information to each episode in the DVD menu.
 2. Rename all files so that they are in the right order, initially they they use DD.MM.YYYY which is unfortunate. I used the `rename` utility (via `brew install rename`):
  `$ rename 's/-Chronik_der_Wende_vom_([\d]{2})\.([\d]{2})\.([\d]{4})/_$3-$2-$1/g' * `
@@ -7,10 +16,13 @@
  ![DVD directories](./images/_directories_.png "Directory screenshot")
 4. Compared to the input the basic `ffmpeg` conversion just using `-target pal-dvd` seems to produce very similar quality, at least I couldn't detect any difference.
 
+## Convert to MPEG2
+
 `ffmpeg -i input.mp4 -target pal-dvd -aspect 16:9 output.mpg`
 
 The information of the input MP4 file looks like this (960x540px, 1992 kb/s bitrate):
-```
+
+```bash
 ffprobe input.mp4 
 ffprobe version 2.8.5 Copyright (c) 2007-2016 the FFmpeg developers
   built with Apple LLVM version 7.0.2 (clang-700.1.81)
@@ -40,7 +52,8 @@ Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '../../chronic-der-wende-mpg/Chronik_der
 ```
 
 The output MPEG2 file looks like this (720x576px, 3964 kb/s bitrate)
-```
+
+```bash
 $ ffprobe output.mpg 
 ffprobe version 2.8.5 Copyright (c) 2007-2016 the FFmpeg developers
   built with Apple LLVM version 7.0.2 (clang-700.1.81)
@@ -66,4 +79,59 @@ Unsupported codec with id 1145979222 for input stream 0
 There seem to be some problems with the start time for the stream 0. We'll see whether that causes issues.
 
 The following line, executed inside a `DVD-xx` directory will convert all MP4 into MPEG2 files:
+
 `for f in *.mp4;do ffmpeg -i "$f" -target pal-dvd -aspect 16:9 "${f%mp4}mpeg";done`
+
+This line tells me how much space the ten episodes will take up:
+
+```bash
+~/Projects/chronik-der-wende/dvds/DVD-01 [master ↓·1|✔] 
+$ find . -type f -name '*.mpeg' -exec du -ch {} + | grep total$
+4.2G	total
+```
+
+Let's hope that's not too big for a DVD (it's really the limit and we don't have a DVD menu structure yet)
+
+## DVD author
+
+
+### Menu creation
+
+Apparently, some audio (even silence) is required, as MP2 audio:
+
+`$ ffmpeg -i 5-seconds-of-silence.mp3 menu-audio.mp2`
+
+Convert an background image to video (`-t` is the number of seconds, not really important as it will loop anyway):
+
+`$ ffmpeg -loop 1 -i assets/dvd-label.png -t 5 -aspect 16:9 -target pal-dvd assets/menu-video.mpg`
+
+Merge the image and the sound:
+
+`$ ffmpeg -i menu-audio.mp2 -i menu-video.mpeg -aspect 16:9 -target pal-dvd menu.mpg`
+
+
+
+- read text files in DVDxx directory
+- extract first and last date "7. bis 16. Oktober 1989"
+- get DVD number "DVD 1"
+- get all 10 dates in format "Samstag, 7. Okt." etc.
+
+- create one image: "DVD xx           7. bis 16. Oktober 1989"
+ - white on transparent, Futura 36px, normal width
+- create 10 images for each date, Futura 30px, normal width, white
+- create 10 images for each date, Futura 30px, normal width, white underlined
+- create 10 images for each date, Futura 30px, normal width, red underlined
+
+- annotate with ImageMagick the background template with the static centered DVD label
+- create background mpeg from image + silence
+
+- create menu XML for spumux with references for each button and its stage
+- run spumux with mpeg of background to create mpeg with buttons
+
+- bonus: create submenu from main menu with info and screenshot of each episode (use data from text file)
+
+
+Create a transparent image of the background onto which to pose the buttons:
+
+`$ convert -size 1048x576 xc:none PNG8:transparent-canvas.png`
+
