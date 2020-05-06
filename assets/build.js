@@ -40,6 +40,9 @@ const readFiles = (e, files) => {
         stream.write(`convert -background none -bordercolor green -border 2 -fill green -pointsize 20 label:"${currentDate}" PNG8:${inDir}/assets/button-active-${i+1}.png\n`)
         stream.write(`convert -background none -bordercolor red -border 2 -fill red -pointsize 20 label:"${currentDate}" PNG8:${inDir}/assets/button-selected-${i+1}.png\n`)
 
+        // TODO: create images then videos from the text files
+        //  sed -n -e 1,10p -e 17,50p dvds/DVD-01/Chronik_der_Wende_1989-10-07-1097577097.txt |convert -background blue -size 680x -fill white -border 20 -bordercolor blue -font Courier -pointsize 16 caption:@- test.png
+
         if (i + 1 === files.length) {
             lastDate = date.format('D. MMMM YYYY')
             stream.write(`convert ${assetsDir}/bg-template.png -pointsize 30 -draw "gravity south fill white text 0,90 'DVD ${dvdNumber}      ${firstDate} bis ${lastDate}'" PNG8:${inDir}/assets/dvd-label.png\n`)
@@ -64,3 +67,4 @@ const readFiles = (e, files) => {
 }
 
 glob(`${inDir}/*.mpeg`, {}, readFiles)
+
