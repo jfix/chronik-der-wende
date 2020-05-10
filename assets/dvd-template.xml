@@ -3,16 +3,16 @@
         <menus>
             <video format="pal" aspect="16:9"/>
             <pgc>
-                <button>jump title 1;</button>
-                <button>jump title 2;</button>
-                <button>jump title 3;</button>
-                <button>jump title 4;</button>
-                <button>jump title 5;</button>
-                <button>jump title 6;</button>
-                <button>jump title 7;</button>
-                <button>jump title 8;</button>
-                <button>jump title 9;</button>
-                <button>jump title 10;</button>
+                <button>jump titleset 1 menu;</button>
+                <button>jump titleset 2 menu;</button>
+                <button>jump titleset 3 menu;</button>
+                <button>jump titleset 4 menu;</button>
+                <button>jump titleset 5 menu;</button>
+                <button>jump titleset 6 menu;</button>
+                <button>jump titleset 7 menu;</button>
+                <button>jump titleset 8 menu;</button>
+                <button>jump titleset 9 menu;</button>
+                <button>jump titleset 10 menu;</button>
                 <vob file="assets/menu-final.mpeg" pause="inf" />
             </pgc>
         </menus>
