@@ -12,3 +12,4 @@ bkp
 dvds/**/*.png
 dvds/**/generate.sh
 dvds/**/dvd.xml
+**/*.iso
