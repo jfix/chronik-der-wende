@@ -21,6 +21,7 @@
   "homepage": "https://github.com/jfix/chronik-der-wende#readme",
   "dependencies": {
     "glob": "7.1.6",
+    "minimist": "1.2.5",
     "moment": "2.24.0",
     "rimraf": "3.0.2"
   }

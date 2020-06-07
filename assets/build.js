@@ -3,16 +3,31 @@ const glob = require('glob')
 const path = require('path')
 const moment = require('moment')
 const rimraf = require('rimraf')
+const parseArgs = require('minimist')
 
+// parse cli arguments and look for -d for dvd number
+let dvdNumber
+const args = parseArgs(process.argv.slice(2))
+if (!args.d || !(Number.isInteger(args.d)) || args.d > 16 || args.d < 1) {
+    console.log(`Usage: ./assets/build.js -d [disk number from 1 to 16]\n`)
+    process.exit(0)
+}
+dvdNumber = args.d
+
+// console.log(`${dvdNumber.toString(10).padStart(2, '0')}`)
+// process.exit(0)
+
+// our dates are to be in German
 moment.locale('de')
 
-const dvdNumber = '1'
-const inDir = path.resolve(__dirname, `../dvds/DVD-${dvdNumber.padStart(2, '0')}`)
+// define directories and files
+const inDir = path.resolve(__dirname, `../dvds/DVD-${dvdNumber.toString(10).padStart(2, '0')}`)
 const assetsInDir = `${inDir}/assets`
 const assetsDir = __dirname
 const outDir = inDir
 const outFile = path.resolve(outDir, 'generate.sh')
 
+// remove previous command file
 rimraf.sync(outFile)
 const stream = fs.createWriteStream(`${outFile}`, {flags:'a'});
 
