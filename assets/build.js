@@ -33,7 +33,7 @@ const stream = fs.createWriteStream(`${outFile}`, {flags:'a'});
 
 // ---------------------------------------------------------
 const cleanUp = () => {
-    stream.write(`rm ${inDir}/assets/*\n`)
+    stream.write(`rm ${inDir}/assets/* && mkdir ${inDir}/assets\n`)
     stream.write(`rm ${inDir}/dvd.xml\n`)
 }
 const states = {
@@ -99,8 +99,18 @@ const readFiles = (e, files) => {
     stream.write(`cp ${assetsDir}/dvd-template.xml ${inDir}/dvd.xml\n`)
     stream.write(`sed -i '' -e 's#TITLESETS#${titlesets}#' ${inDir}/dvd.xml\n`)
 
+
+    const buttonPositionString = (assetsInDir, state) => {
+        const buttonPositions = [ "+40+80", "+40+130", "+40+185", "+40+240", "+40+295", "+510+80", "+510+130", "+510+185", "+510+240", "+510+295" ]
+        let string = ""
+        files.forEach((f, i) => {
+            string += `${assetsInDir}/button-${state}-${(i+1)}.png -geometry ${buttonPositions[i]} -composite `
+        })
+        return string
+    }
+
     Object.keys(states).forEach((state) => {
-        stream.write(`convert -size 720x576 xc:none ${assetsInDir}/button-${state}-1.png -geometry +40+80 -composite ${assetsInDir}/button-${state}-2.png -geometry +40+130 -composite ${assetsInDir}/button-${state}-3.png -geometry +40+185 -composite ${assetsInDir}/button-${state}-4.png -geometry +40+240 -composite ${assetsInDir}/button-${state}-5.png -geometry +40+295 -composite ${assetsInDir}/button-${state}-6.png -geometry +510+80 -composite ${assetsInDir}/button-${state}-7.png -geometry +510+130 -composite ${assetsInDir}/button-${state}-8.png -geometry +510+185 -composite ${assetsInDir}/button-${state}-9.png -geometry +510+240 -composite ${assetsInDir}/button-${state}-10.png -geometry +510+295 -composite PNG8:${assetsInDir}/background-${state}.png\n`)
+        stream.write(`convert -size 720x576 xc:none ${buttonPositionString(assetsInDir, state)} PNG8:${assetsInDir}/background-${state}.png\n`)
     })
 
     stream.write(`ffmpeg -loglevel warning -hide_banner -y -loop 1 -i assets/dvd-label.png -t 5 -aspect 16:9 -target pal-dvd assets/menu-video.mpeg\n`)
