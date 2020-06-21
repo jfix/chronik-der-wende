@@ -5,16 +5,27 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
+cwd=$(pwd)
+
 number=$1
 paddedNumber=$(printf "%02g" $1)
 
-cd ~/Projects/chronik-der-wende/dvds/DVD-${paddedNumber}
+previousNumber="$(($number - 1))"
+previouPaddedNumber=$(printf "%02g" $previousNumber)
+
+cd ${cwd}
+rm -f dvd-"$previousPaddedNumber".iso
+rm -rf dvds/DVD-"$previousPaddedNumber"/out
+rm -f dvds/DVD-"$previousPaddedNumber"/*.mpeg
+
+cd ${cwd}/dvds/DVD-${paddedNumber}
 for f in *.mp4;do ffmpeg -i "$f" -target pal-dvd -aspect 16:9 "${f%mp4}mpeg";done
-cd ~/Projects/chronik-der-wende/assets
+cd ${cwd}/assets
 node ./build.js -d ${paddedNumber}
-cd ~/Projects/chronik-der-wende/dvds/DVD-${paddedNumber}
+cd ${cwd}/dvds/DVD-${paddedNumber}
 mkdir assets
 chmod 755 generate.sh && ./generate.sh
 dvdauthor -x dvd.xml
-mkisofs -R -V "DVD ${number} - Chronik der Wende" -dvd-video -o ../dvd-${paddedNumber}.iso out/
+mkisofs -R -V "DVD ${number} - Chronik der Wende" -dvd-video -o ${cwd}/dvd-${paddedNumber}.iso out/
+tput bel;tput bel;tput bel
 exit 0
