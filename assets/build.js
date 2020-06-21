@@ -8,8 +8,8 @@ const parseArgs = require('minimist')
 // parse cli arguments and look for -d for dvd number
 let dvdNumber
 const args = parseArgs(process.argv.slice(2))
-if (!args.d || !(Number.isInteger(args.d)) || args.d > 16 || args.d < 1) {
-    console.log(`Usage: ./assets/build.js -d [disk number from 1 to 16]\n`)
+if (!args.d || !(Number.isInteger(args.d)) || args.d > 17 || args.d < 1) {
+    console.log(`Usage: ./assets/build.js -d [disk number from 1 to 17]\n`)
     process.exit(0)
 }
 dvdNumber = args.d
